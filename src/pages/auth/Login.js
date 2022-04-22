@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   getAuth,
-  sendSignInLinkToEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
@@ -11,48 +10,32 @@ import { toast } from "react-toastify";
 import { Button } from "antd";
 import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { createOrUpdateUser } from "../../functions/auth";
 
-export default function Login() {
+export default function Login({ history }) {
   const navigate = useNavigate();
   const auth = getAuth();
   let dispatch = useDispatch();
   const [email, setEmail] = useState("dwaraka.bits@gmail.com");
-  const [password, setpassword] = useState("1111111");
+  const [password, setpassword] = useState("111111");
   const [loading, setloading] = useState(false);
   const provider = new GoogleAuthProvider();
-  const { user } = useSelector((state) => ({ ...state }));
-  useEffect(() => {
-    if (user && user.token) navigate("/");
-  }, [user]);
-  const handleGoogleSubmit = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      const idTokenResult = await user.getIdTokenResult();
-      dispatch({
-        type: "LOGGED_IN_USER",
-        payload: {
-          email: user.email,
-          token: idTokenResult.token,
-        },
-      });
-      navigate("/");
-    } catch (error) {
-      toast.error(error.message);
+  // const { user } = useSelector((state) => ({ ...state }));
 
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
+  // useEffect(() => {
+  //   if (user && user.token) navigate("/");
+  // }, [navigate, user]);
+
+  const roleBasedRedirect = (res) => {
+    if (res.data.role === "admin") {
+      navigate("/admin/dashboard");
+    } else {
+      navigate("/user/history");
     }
-    toast.success(`Login successfull`);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setloading(true);
@@ -61,20 +44,66 @@ export default function Login() {
       // console.log(result);
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
-      dispatch({
-        type: "LOGGED_IN_USER",
-        payload: {
-          email: user.email,
-          token: idTokenResult.token,
-        },
-      });
-      navigate("/");
+      createOrUpdateUser(idTokenResult.token)
+        .then((res) => {
+          dispatch({
+            type: "LOGGED_IN_USER",
+            payload: {
+              name: res.data.name,
+              email: res.data.email,
+              token: idTokenResult.token,
+              role: res.data.role,
+              _id: res.data._id,
+            },
+          });
+          roleBasedRedirect(res);
+        })
+        .catch((error) => console.log(error));
+      toast.success(`Login successfull`);
+      // navigate("/");
     } catch (error) {
       toast.error(error.message);
+      // console.log(error.message);
       setloading(false);
+    }
+  };
+
+  const handleGoogleSubmit = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      const idTokenResult = await user.getIdTokenResult();
+      createOrUpdateUser(idTokenResult.token)
+        .then((res) => {
+          dispatch({
+            type: "LOGGED_IN_USER",
+            payload: {
+              name: res.data.name,
+              email: res.data.email,
+              token: idTokenResult.token,
+              role: res.data.role,
+              _id: res.data._id,
+            },
+          });
+          roleBasedRedirect(res);
+        })
+        .catch((error) => console.log(error));
+      // navigate("/");
+    } catch (error) {
+      toast.error(error.message);
+
+      // Handle Errors here.
+      // const errorCode = error.code;
+      // const errorMessage = error.message;
+      // // The email of the user's account used.
+      // const email = error.email;
+      // // The AuthCredential type that was used.
+      // const credential = GoogleAuthProvider.credentialFromError(error);
+      // ...
     }
     toast.success(`Login successfull`);
   };
+
   const LoginForm = () => (
     <form onSubmit={handleSubmit}>
       <div className="form-group">

@@ -3,7 +3,7 @@ import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { app } from "../../firebase";
 import { toast } from "react-toastify";
 import { Button } from "antd";
-import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
+import { MailOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -15,7 +15,7 @@ export default function ForgotPassword() {
   const [loading, setloading] = useState(false);
   useEffect(() => {
     if (user && user.token) navigate("/");
-  }, [user]);
+  }, [navigate, user]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setloading(true);

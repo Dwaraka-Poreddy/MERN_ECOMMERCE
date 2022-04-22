@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from "react";
-import {
-  getAuth,
-  signInWithEmailLink,
-  isSignInWithEmailLink,
-  updatePassword,
-} from "firebase/auth";
+import { getAuth, signInWithEmailLink, updatePassword } from "firebase/auth";
 import { app } from "../../firebase";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { createOrUpdateUser } from "../../functions/auth";
 
 export default function RegisterComplete() {
   const auth = getAuth();
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
+  let dispatch = useDispatch();
+
   const navigate = useNavigate();
   useEffect(() => {
     setEmail(window.localStorage.getItem("emailForRegistration"));
-  }, []);
+  }, [navigate]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
@@ -47,12 +46,27 @@ export default function RegisterComplete() {
         const idTokenResult = await user.getIdTokenResult();
         // redux store
         console.log("user", user, "idTokenResult", idTokenResult);
+
+        createOrUpdateUser(idTokenResult.token)
+          .then((res) => {
+            dispatch({
+              type: "LOGGED_IN_USER",
+              payload: {
+                name: res.data.name,
+                email: res.data.email,
+                token: idTokenResult.token,
+                role: res.data.role,
+                _id: res.data._id,
+              },
+            });
+          })
+          .catch((error) => console.log(error));
         // redirect
         navigate("/");
       }
     } catch (error) {
       toast.error(error.message);
-      console.log(error);
+      console.log(error, "vachesindi");
     }
   };
   const registerCompleteForm = () => (

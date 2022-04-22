@@ -8,12 +8,12 @@ import { useNavigate } from "react-router-dom";
 export default function Register() {
   const auth = getAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("dwaraka.bits@gmail.com");
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
     if (user && user.token) navigate("/");
-  }, [user]);
+  }, [navigate, user]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const config = {
