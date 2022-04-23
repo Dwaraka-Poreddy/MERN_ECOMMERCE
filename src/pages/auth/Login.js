@@ -14,7 +14,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { createOrUpdateUser } from "../../functions/auth";
 
-export default function Login({ history }) {
+export default function Login() {
   const navigate = useNavigate();
   const auth = getAuth();
   let dispatch = useDispatch();

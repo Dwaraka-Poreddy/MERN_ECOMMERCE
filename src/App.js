@@ -12,6 +12,11 @@ import History from "./pages/User/History";
 import Password from "./pages/User/Password";
 import Wishlist from "./pages/User/Wishlist";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import CategoryUpdate from "./pages/admin/category/CategoryUpdate";
+import CategoryCreate from "./pages/admin/category/CategoryCreate";
+import ProductCreate from "./pages/admin/product/ProductCreate";
+import SubCreate from "./pages/admin/sub/SubCreate";
+import SubUpdate from "./pages/admin/sub/SubUpdate";
 import UserRoute from "./components/routes/UserRoute";
 import AdminRoute from "./components/routes/AdminRoute";
 import { auth } from "./firebase";
@@ -86,6 +91,46 @@ const App = () => {
           element={
             <AdminRoute>
               <AdminDashboard />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/category/:slug"
+          element={
+            <AdminRoute>
+              <CategoryUpdate />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/category"
+          element={
+            <AdminRoute>
+              <CategoryCreate />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/sub"
+          element={
+            <AdminRoute>
+              <SubCreate />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/sub/:slug"
+          element={
+            <AdminRoute>
+              <SubUpdate />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/product"
+          element={
+            <AdminRoute>
+              <ProductCreate />
             </AdminRoute>
           }
         />
