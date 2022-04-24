@@ -1,20 +1,22 @@
 import React from "react";
 import { Select } from "antd";
 
-const ProductCreateForm = ({
+const ProductUpdateForm = ({
   handleSubmit,
   handleChange,
   handleCategoryChange,
-  subOptions,
-  showSub,
   values,
   setValues,
+  categories,
+  subOptions,
+  arrayOfSubs,
+  setArrayOfSubs,
+  selectedCategory,
 }) => {
   const {
     title,
     description,
     price,
-    categories,
     category,
     subs,
     shipping,
@@ -67,8 +69,8 @@ const ProductCreateForm = ({
           name="shipping"
           className="form-control"
           onChange={handleChange}
+          value={shipping}
         >
-          <option>Please select</option>
           <option value="No">No</option>
           <option value="Yes">Yes</option>
         </select>
@@ -87,8 +89,12 @@ const ProductCreateForm = ({
 
       <div className="form-group">
         <label>Color</label>
-        <select name="color" className="form-control" onChange={handleChange}>
-          <option>Please select</option>
+        <select
+          name="color"
+          className="form-control"
+          onChange={handleChange}
+          value={color}
+        >
           {colors.map((c) => (
             <option key={c} value={c}>
               {c}
@@ -99,8 +105,12 @@ const ProductCreateForm = ({
 
       <div className="form-group">
         <label>Brand</label>
-        <select name="brand" className="form-control" onChange={handleChange}>
-          <option>Please select</option>
+        <select
+          name="brand"
+          className="form-control"
+          onChange={handleChange}
+          value={brand}
+        >
           {brands.map((b) => (
             <option key={b} value={b}>
               {b}
@@ -114,6 +124,7 @@ const ProductCreateForm = ({
           name="category"
           className="form-control"
           onChange={handleCategoryChange}
+          value={selectedCategory ? selectedCategory : category._id}
         >
           <option>Please select</option>
           {categories.length > 0 &&
@@ -124,29 +135,26 @@ const ProductCreateForm = ({
             ))}
         </select>
       </div>
-      {showSub && (
-        <div className="form-group">
-          <label>Sub Categories</label>
-          <Select
-            mode="multiple"
-            style={{ width: "100%" }}
-            placeholder="Please select"
-            value={subs}
-            onChange={(value) => setValues({ ...values, subs: value })}
-          >
-            {subOptions.length > 0 &&
-              subOptions.map((s) => (
-                <Option key={s._id} value={s._id}>
-                  {s.name}
-                </Option>
-              ))}
-          </Select>
-        </div>
-      )}
-
+      <div className="form-group">
+        <label>Sub Categories</label>
+        <Select
+          mode="multiple"
+          style={{ width: "100%" }}
+          placeholder="Please select"
+          value={arrayOfSubs}
+          onChange={(value) => setArrayOfSubs(value)}
+        >
+          {subOptions.length > 0 &&
+            subOptions.map((s) => (
+              <Option key={s._id} value={s._id}>
+                {s.name}
+              </Option>
+            ))}
+        </Select>
+      </div>
       <button className="btn btn-outline-info">Save</button>
     </form>
   );
 };
 
-export default ProductCreateForm;
+export default ProductUpdateForm;

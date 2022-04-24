@@ -24,6 +24,8 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getAuth } from "firebase/auth";
 import { currentUser } from "./functions/auth";
+import AllProducts from "./pages/admin/product/AllProducts";
+import ProductUpdate from "./pages/admin/product/ProductUpdate";
 const App = () => {
   const auth = getAuth();
   const dispatch = useDispatch();
@@ -131,6 +133,22 @@ const App = () => {
           element={
             <AdminRoute>
               <ProductCreate />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/products"
+          element={
+            <AdminRoute>
+              <AllProducts />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/product/:slug"
+          element={
+            <AdminRoute>
+              <ProductUpdate />
             </AdminRoute>
           }
         />

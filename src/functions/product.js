@@ -7,3 +7,26 @@ export const createProduct = async (product, authtoken) => {
     },
   });
 };
+
+export const getProductsByCount = async (count) => {
+  return await axios.get(`${process.env.REACT_APP_API}/products/${count}`);
+};
+
+export const removeProduct = async (slug, authtoken) => {
+  return await axios.delete(`${process.env.REACT_APP_API}/products/${slug}`, {
+    headers: {
+      authtoken,
+    },
+  });
+};
+
+export const getProduct = async (slug) => {
+  return await axios.get(`${process.env.REACT_APP_API}/product/${slug}`);
+};
+
+export const updateProduct = async (slug, product, authtoken) =>
+  await axios.put(`${process.env.REACT_APP_API}/product/${slug}`, product, {
+    headers: {
+      authtoken,
+    },
+  });
