@@ -26,6 +26,7 @@ import { getAuth } from "firebase/auth";
 import { currentUser } from "./functions/auth";
 import AllProducts from "./pages/admin/product/AllProducts";
 import ProductUpdate from "./pages/admin/product/ProductUpdate";
+import Product from "./pages/Product";
 const App = () => {
   const auth = getAuth();
   const dispatch = useDispatch();
@@ -60,6 +61,7 @@ const App = () => {
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/product/:slug" element={<Product />} />
         <Route path="login/*" element={<Login />} />
         <Route path="register/*" element={<Register />} />
         <Route path="register/complete/*" element={<RegisterComplete />} />
