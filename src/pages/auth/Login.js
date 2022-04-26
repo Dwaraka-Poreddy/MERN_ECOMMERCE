@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -9,12 +9,12 @@ import { app } from "../../firebase";
 import { toast } from "react-toastify";
 import { Button } from "antd";
 import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { createOrUpdateUser } from "../../functions/auth";
-
 export default function Login() {
+  const location = useLocation();
   const navigate = useNavigate();
   const auth = getAuth();
   let dispatch = useDispatch();
@@ -22,17 +22,26 @@ export default function Login() {
   const [password, setpassword] = useState("111111");
   const [loading, setloading] = useState(false);
   const provider = new GoogleAuthProvider();
-  // const { user } = useSelector((state) => ({ ...state }));
-
-  // useEffect(() => {
-  //   if (user && user.token) navigate("/");
-  // }, [navigate, user]);
+  const { user } = useSelector((state) => ({ ...state }));
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    let intended = location.state;
+    if (intended) return;
+    if (isLoggedIn) return;
+    if (user && user.token) navigate("/");
+  }, [navigate, user]);
 
   const roleBasedRedirect = (res) => {
-    if (res.data.role === "admin") {
-      navigate("/admin/dashboard");
+    let intended = location.state;
+    console.log("location.state ", location.state, " isLoggedIn ", isLoggedIn);
+    if (intended) {
+      navigate(location.state.from);
     } else {
-      navigate("/user/history");
+      if (res.data.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/user/history");
+      }
     }
   };
 
@@ -42,6 +51,8 @@ export default function Login() {
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
       // console.log(result);
+      setIsLoggedIn(true);
+      // console.log("setting setIsLoggedIn to true");
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
       createOrUpdateUser(idTokenResult.token)
@@ -71,6 +82,7 @@ export default function Login() {
   const handleGoogleSubmit = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
+      setIsLoggedIn(true);
       const user = result.user;
       const idTokenResult = await user.getIdTokenResult();
       createOrUpdateUser(idTokenResult.token)
