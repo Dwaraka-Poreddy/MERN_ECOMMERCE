@@ -27,6 +27,8 @@ import { currentUser } from "./functions/auth";
 import AllProducts from "./pages/admin/product/AllProducts";
 import ProductUpdate from "./pages/admin/product/ProductUpdate";
 import Product from "./pages/Product";
+import CategoryHome from "./pages/category/CategoryHome";
+import SubHome from "./pages/sub/SubHome";
 const App = () => {
   const auth = getAuth();
   const dispatch = useDispatch();
@@ -62,6 +64,9 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:slug" element={<Product />} />
+        <Route path="/category/:slug" element={<CategoryHome />} />
+        <Route path="/sub/:slug" element={<SubHome />} />
+
         <Route path="login/*" element={<Login />} />
         <Route path="register/*" element={<Register />} />
         <Route path="register/complete/*" element={<RegisterComplete />} />

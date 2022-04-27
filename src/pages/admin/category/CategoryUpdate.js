@@ -17,7 +17,10 @@ const CategoryUpdate = () => {
   }, []);
 
   const loadCategory = () =>
-    getCategory(slug).then((c) => setName(c.data.name));
+    getCategory(slug).then((c) => {
+      setName(c.data.category.name);
+      console.log(c.data.category, "dataaaaaaaaaaaaa");
+    });
 
   const handleSubmit = (e) => {
     e.preventDefault();

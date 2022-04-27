@@ -27,8 +27,8 @@ const SubUpdate = () => {
     getCategories().then((c) => setCategories(c.data));
   const loadSub = () =>
     getSub(slug).then((s) => {
-      setName(s.data.name);
-      setParent(s.data.parent);
+      setName(s.data.sub.name);
+      setParent(s.data.sub.parent);
     });
 
   const handleSubmit = (e) => {
