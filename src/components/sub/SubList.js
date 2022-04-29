@@ -16,7 +16,7 @@ const SubList = () => {
 
   const showSubs = () =>
     subs.map((s) => (
-      <div className="col">
+      <div className="col" key={s._id}>
         <Link
           key={s._id}
           className=" btn btn-outline-light shadow btn-lg text-secondary btn-block m-3"

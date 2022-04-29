@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from "react";
 import AdminNav from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { updateSub, getSub } from "../../../functions/sub";
 import { getCategories } from "../../../functions/category";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CategoryForm from "../../../components/forms/CategoryForm";
-import LocalSearch from "../../../components/forms/LocalSearch";
 const SubUpdate = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => ({ ...state }));
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [keyword, setKeyword] = useState("");
   const [parent, setParent] = useState("");
   const { slug } = useParams();
   useEffect(() => {
@@ -48,8 +44,6 @@ const SubUpdate = () => {
         if (err.response.status === 400) toast.error(err.response.data);
       });
   };
-
-  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
 
   return (
     <div className="container-fluid">

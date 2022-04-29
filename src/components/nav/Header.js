@@ -7,10 +7,12 @@ import {
   UserOutlined,
   UserAddOutlined,
   LogoutOutlined,
+  ShoppingOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Search from "../forms/Search";
 
 const { SubMenu, Item } = Menu;
 
@@ -37,6 +39,12 @@ const Header = () => {
       <Item key="home" icon={<AppstoreOutlined />}>
         <Link to="/">Home </Link>
       </Item>
+      <Item key="shop" icon={<ShoppingOutlined />}>
+        <Link to="/shop">Shop </Link>
+      </Item>
+      <Item className="ml-auto p-1 ">
+        <Search />
+      </Item>
       {user && (
         <SubMenu
           icon={<SettingOutlined />}
@@ -61,18 +69,18 @@ const Header = () => {
       )}
 
       {!user && (
-        <Item
-          key="login"
-          icon={<UserOutlined />}
-          style={{ marginLeft: "auto" }}
-        >
-          <Link to="/login">Login</Link>
-        </Item>
-      )}
-      {!user && (
-        <Item key="register" icon={<UserAddOutlined />}>
-          <Link to="/register">Register</Link>
-        </Item>
+        <>
+          <Item
+            key="login"
+            icon={<UserOutlined />}
+            style={{ marginLeft: "auto" }}
+          >
+            <Link to="/login">Login</Link>
+          </Item>
+          <Item key="register" icon={<UserAddOutlined />}>
+            <Link to="/register">Register</Link>
+          </Item>
+        </>
       )}
     </Menu>
   );
