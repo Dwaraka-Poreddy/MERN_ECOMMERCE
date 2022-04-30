@@ -36,6 +36,7 @@ export default function Login() {
     console.log("location.state ", location.state, " isLoggedIn ", isLoggedIn);
     if (intended) {
       navigate(location.state.from);
+      console.log("yayyy");
     } else {
       if (res.data.role === "admin") {
         navigate("/admin/dashboard");

@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import SideDrawer from "./components/drawer/SideDrawer";
 import Home from "./pages/Home";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -30,6 +30,8 @@ import Product from "./pages/Product";
 import CategoryHome from "./pages/category/CategoryHome";
 import SubHome from "./pages/sub/SubHome";
 import Shop from "./pages/Shop";
+import Cart from "./pages/Cart";
+
 const App = () => {
   const auth = getAuth();
   const dispatch = useDispatch();
@@ -62,15 +64,17 @@ const App = () => {
     <>
       <Header />
       <ToastContainer />
+      <SideDrawer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:slug" element={<Product />} />
         <Route path="/category/:slug" element={<CategoryHome />} />
         <Route path="/sub/:slug" element={<SubHome />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/cart" element={<Cart />} />
 
-        <Route path="login/*" element={<Login />} />
-        <Route path="register/*" element={<Register />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
         <Route path="register/complete/*" element={<RegisterComplete />} />
         <Route path="forgot/password/*" element={<ForgotPassword />} />
         <Route

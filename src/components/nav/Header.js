@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { getAuth } from "firebase/auth";
-import { Menu } from "antd";
+import { Menu, Badge } from "antd";
 import {
   AppstoreOutlined,
   SettingOutlined,
@@ -8,6 +8,7 @@ import {
   UserAddOutlined,
   LogoutOutlined,
   ShoppingOutlined,
+  ShoppingCartOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +22,7 @@ const Header = () => {
   const auth = getAuth();
   const navigate = useNavigate();
   let dispatch = useDispatch();
-  let { user } = useSelector((state) => ({ ...state }));
+  let { user, cart } = useSelector((state) => ({ ...state }));
   const handleClick = (e) => {
     // console.log(e.key);
     setCurrent(e.key);
@@ -41,6 +42,13 @@ const Header = () => {
       </Item>
       <Item key="shop" icon={<ShoppingOutlined />}>
         <Link to="/shop">Shop </Link>
+      </Item>
+      <Item key="cart" icon={<ShoppingCartOutlined />}>
+        <Link to="/cart">
+          <Badge count={cart.length} offset={[9, 0]}>
+            Cart
+          </Badge>{" "}
+        </Link>
       </Item>
       <Item className="ml-auto p-1 ">
         <Search />
@@ -67,7 +75,6 @@ const Header = () => {
           </Item>
         </SubMenu>
       )}
-
       {!user && (
         <>
           <Item
