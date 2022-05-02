@@ -31,6 +31,7 @@ import CategoryHome from "./pages/category/CategoryHome";
 import SubHome from "./pages/sub/SubHome";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 
 const App = () => {
   const auth = getAuth();
@@ -72,7 +73,6 @@ const App = () => {
         <Route path="/sub/:slug" element={<SubHome />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/cart" element={<Cart />} />
-
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="register/complete/*" element={<RegisterComplete />} />
@@ -98,6 +98,14 @@ const App = () => {
           element={
             <UserRoute>
               <Wishlist />
+            </UserRoute>
+          }
+        />{" "}
+        <Route
+          path="checkout"
+          element={
+            <UserRoute>
+              <Checkout />
             </UserRoute>
           }
         />

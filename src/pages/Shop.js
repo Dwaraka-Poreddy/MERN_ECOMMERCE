@@ -73,10 +73,20 @@ const Shop = () => {
     });
   };
 
+  useEffect(() => {
+    loadAllProducts();
+    getCategories().then((res) => setCategories(res.data));
+    getSubs().then((res) => setSubs(res.data));
+    // console.log("categories", categories);
+  }, []);
+
   // 2. load products on user search input
   useEffect(() => {
     const delayed = setTimeout(() => {
       fetchProducts({ query: text });
+      if (!text) {
+        loadAllProducts();
+      }
     }, 300);
     setPrice([0, 0]);
     setCategoryIds([]);
@@ -110,13 +120,6 @@ const Shop = () => {
       setOk(!ok);
     }, 300);
   };
-
-  useEffect(() => {
-    loadAllProducts();
-    getCategories().then((res) => setCategories(res.data));
-    getSubs().then((res) => setSubs(res.data));
-    // console.log("categories", categories);
-  }, []);
 
   // 4. load products based on category
   // show categories in a list of checkbox
