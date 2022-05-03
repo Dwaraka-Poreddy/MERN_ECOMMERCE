@@ -45,7 +45,7 @@ const Cart = () => {
 
   return (
     <div className="container-fluid pt-2">
-      <div className="row">
+      <div className="row mx-0">
         <div className="col-md-8">
           <h4>Cart - {cart.length} Product(s)</h4>
           {!cart.length ? (

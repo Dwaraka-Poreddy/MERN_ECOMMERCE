@@ -32,6 +32,8 @@ import SubHome from "./pages/sub/SubHome";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import CreateCouponPage from "./pages/coupon/CreateCouponPage";
+import Payment from "./pages/Payment";
 
 const App = () => {
   const auth = getAuth();
@@ -110,6 +112,14 @@ const App = () => {
           }
         />
         <Route
+          path="payment"
+          element={
+            <UserRoute>
+              <Payment />
+            </UserRoute>
+          }
+        />
+        <Route
           path="admin/dashboard/*"
           element={
             <AdminRoute>
@@ -170,6 +180,14 @@ const App = () => {
           element={
             <AdminRoute>
               <ProductUpdate />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/coupon"
+          element={
+            <AdminRoute>
+              <CreateCouponPage />
             </AdminRoute>
           }
         />
