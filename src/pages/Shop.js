@@ -73,13 +73,6 @@ const Shop = () => {
     });
   };
 
-  useEffect(() => {
-    loadAllProducts();
-    getCategories().then((res) => setCategories(res.data));
-    getSubs().then((res) => setSubs(res.data));
-    // console.log("categories", categories);
-  }, []);
-
   // 2. load products on user search input
   useEffect(() => {
     const delayed = setTimeout(() => {
@@ -103,6 +96,13 @@ const Shop = () => {
     // console.log("ok to request");
     fetchProducts({ price });
   }, [ok]);
+
+  useEffect(() => {
+    loadAllProducts();
+    getCategories().then((res) => setCategories(res.data));
+    getSubs().then((res) => setSubs(res.data));
+    // console.log("categories", categories);
+  }, []);
 
   const handleSlider = (value) => {
     dispatch({

@@ -5,9 +5,10 @@ import ProductCardInCheckout from "../components/cards/ProductCardInCheckout";
 import { userCart } from "../functions/user";
 
 const Cart = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, cart } = useSelector((state) => ({ ...state }));
+  const dispatch = useDispatch();
+
   const getTotal = () => {
     return cart.reduce((currentValue, nextValue) => {
       return currentValue + nextValue.count * nextValue.price;
@@ -22,6 +23,21 @@ const Cart = () => {
       })
       .catch((err) => console.log("cart save err", err));
   };
+
+  const saveCashOrderToDb = () => {
+    // console.log("cart", JSON.stringify(cart, null, 4));
+    dispatch({
+      type: "COD",
+      payload: true,
+    });
+    userCart(cart, user.token)
+      .then((res) => {
+        console.log("CART POST RES", res);
+        if (res.data.ok) navigate("/checkout");
+      })
+      .catch((err) => console.log("cart save err", err));
+  };
+
   const showCartItems = () => (
     <table className="table table-bordered ">
       <thead className="thead-light">
@@ -71,13 +87,23 @@ const Cart = () => {
           Total: <b> ${getTotal()}</b>
           <hr />
           {user ? (
-            <button
-              onClick={saveOrderToDb}
-              className="btn btn-sm btn-primary mt-4"
-              disabled={!cart.length}
-            >
-              Proceed to Checkout
-            </button>
+            <div className="row">
+              <button
+                onClick={saveOrderToDb}
+                className="btn btn-sm btn-primary m-2 col text-light"
+                disabled={!cart.length}
+              >
+                Proceed to Checkout
+              </button>
+
+              <button
+                onClick={saveCashOrderToDb}
+                className="btn btn-sm btn-info m-2 col text-light"
+                disabled={!cart.length}
+              >
+                Pay Cash on Delivery
+              </button>
+            </div>
           ) : (
             <Link to="/login" state={{ from: "/cart" }}>
               <button

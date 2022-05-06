@@ -15,6 +15,7 @@ const Product = () => {
 
   useEffect(() => {
     loadSingleProduct();
+    console.log("user roken", user);
   }, [slug]);
 
   useEffect(() => {
@@ -58,6 +59,7 @@ const Product = () => {
         <div className="col text-center py-5">
           <hr />
           <h4>Related Products</h4>
+
           <hr />
         </div>
       </div>
