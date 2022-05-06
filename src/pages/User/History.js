@@ -42,7 +42,7 @@ const History = () => {
             <td>
               <b>{p.product.title}</b>
             </td>
-            <td>{p.product.price}</td>
+            <td>₹{p.product.price}</td>
             <td>{p.product.brand}</td>
             <td>{p.color}</td>
             <td>{p.count}</td>

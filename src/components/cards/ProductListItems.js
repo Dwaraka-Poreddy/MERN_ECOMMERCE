@@ -8,7 +8,7 @@ const ProductListItems = ({ product }) => {
       <ul className="list-group border-0">
         <li className="border-0 list-group-item d-flex justify-content-between align-items-center">
           Price
-          <span className=" rounded-pill">${price}</span>
+          <span className=" rounded-pill">₹{price}</span>
         </li>{" "}
         {category && (
           <li className="border-0 list-group-item d-flex justify-content-between align-items-center">

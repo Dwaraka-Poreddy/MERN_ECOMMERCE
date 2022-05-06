@@ -79,12 +79,12 @@ const Cart = () => {
           {cart.map((c, i) => (
             <div key={i}>
               <p>
-                {c.title} x {c.count} = ${c.price * c.count}
+                {c.title} x {c.count} = ₹{c.price * c.count}
               </p>
             </div>
           ))}
           <hr />
-          Total: <b> ${getTotal()}</b>
+          Total: <b> ₹{getTotal()}</b>
           <hr />
           {user ? (
             <div className="row">
