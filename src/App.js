@@ -1,39 +1,77 @@
+import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import SideDrawer from "./components/drawer/SideDrawer";
-import Home from "./pages/Home";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
-import Header from "./components/nav/Header";
-import RegisterComplete from "./pages/auth/RegisterComplete";
-import ForgotPassword from "./pages/auth/ForgotPassword";
-import History from "./pages/User/History";
-import Password from "./pages/User/Password";
-import Wishlist from "./pages/User/Wishlist";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import CategoryUpdate from "./pages/admin/category/CategoryUpdate";
-import CategoryCreate from "./pages/admin/category/CategoryCreate";
-import ProductCreate from "./pages/admin/product/ProductCreate";
-import SubCreate from "./pages/admin/sub/SubCreate";
-import SubUpdate from "./pages/admin/sub/SubUpdate";
-import UserRoute from "./components/routes/UserRoute";
-import AdminRoute from "./components/routes/AdminRoute";
+import { LoadingOutlined } from "@ant-design/icons";
+
+import { currentUser } from "./functions/auth";
 import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getAuth } from "firebase/auth";
-import { currentUser } from "./functions/auth";
-import AllProducts from "./pages/admin/product/AllProducts";
-import ProductUpdate from "./pages/admin/product/ProductUpdate";
-import Product from "./pages/Product";
-import CategoryHome from "./pages/category/CategoryHome";
-import SubHome from "./pages/sub/SubHome";
-import Shop from "./pages/Shop";
-import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
-import CreateCouponPage from "./pages/coupon/CreateCouponPage";
-import Payment from "./pages/Payment";
+
+// import SideDrawer from "./components/drawer/SideDrawer";
+// import Home from "./pages/Home";
+// import Login from "./pages/auth/Login";
+// import Register from "./pages/auth/Register";
+// import Header from "./components/nav/Header";
+// import RegisterComplete from "./pages/auth/RegisterComplete";
+// import ForgotPassword from "./pages/auth/ForgotPassword";
+// import History from "./pages/User/History";
+// import Password from "./pages/User/Password";
+// import Wishlist from "./pages/User/Wishlist";
+// import AdminDashboard from "./pages/admin/AdminDashboard";
+// import CategoryUpdate from "./pages/admin/category/CategoryUpdate";
+// import CategoryCreate from "./pages/admin/category/CategoryCreate";
+// import ProductCreate from "./pages/admin/product/ProductCreate";
+// import SubCreate from "./pages/admin/sub/SubCreate";
+// import SubUpdate from "./pages/admin/sub/SubUpdate";
+// import UserRoute from "./components/routes/UserRoute";
+// import AdminRoute from "./components/routes/AdminRoute";
+// import AllProducts from "./pages/admin/product/AllProducts";
+// import ProductUpdate from "./pages/admin/product/ProductUpdate";
+// import Product from "./pages/Product";
+// import CategoryHome from "./pages/category/CategoryHome";
+// import SubHome from "./pages/sub/SubHome";
+// import Shop from "./pages/Shop";
+// import Cart from "./pages/Cart";
+// import Checkout from "./pages/Checkout";
+// import CreateCouponPage from "./pages/coupon/CreateCouponPage";
+// import Payment from "./pages/Payment";
+
+// using lazy
+const SideDrawer = lazy(() => import("./components/drawer/SideDrawer"));
+const Home = lazy(() => import("./pages/Home"));
+const Login = lazy(() => import("./pages/auth/Login"));
+const Register = lazy(() => import("./pages/auth/Register"));
+const Header = lazy(() => import("./components/nav/Header"));
+const RegisterComplete = lazy(() => import("./pages/auth/RegisterComplete"));
+const ForgotPassword = lazy(() => import("./pages/auth/ForgotPassword"));
+const History = lazy(() => import("./pages/User/History"));
+const Password = lazy(() => import("./pages/User/Password"));
+const Wishlist = lazy(() => import("./pages/User/Wishlist"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const CategoryUpdate = lazy(() =>
+  import("./pages/admin/category/CategoryUpdate")
+);
+const CategoryCreate = lazy(() =>
+  import("./pages/admin/category/CategoryCreate")
+);
+const ProductCreate = lazy(() => import("./pages/admin/product/ProductCreate"));
+const SubCreate = lazy(() => import("./pages/admin/sub/SubCreate"));
+const SubUpdate = lazy(() => import("./pages/admin/sub/SubUpdate"));
+const UserRoute = lazy(() => import("./components/routes/UserRoute"));
+const AdminRoute = lazy(() => import("./components/routes/AdminRoute"));
+const AllProducts = lazy(() => import("./pages/admin/product/AllProducts"));
+const ProductUpdate = lazy(() => import("./pages/admin/product/ProductUpdate"));
+const Product = lazy(() => import("./pages/Product"));
+const CategoryHome = lazy(() => import("./pages/category/CategoryHome"));
+const SubHome = lazy(() => import("./pages/sub/SubHome"));
+const Shop = lazy(() => import("./pages/Shop"));
+const Cart = lazy(() => import("./pages/Cart"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const CreateCouponPage = lazy(() => import("./pages/coupon/CreateCouponPage"));
+const Payment = lazy(() => import("./pages/Payment"));
 
 const App = () => {
   const auth = getAuth();
@@ -64,7 +102,16 @@ const App = () => {
   }, [auth, dispatch]);
 
   return (
-    <>
+    <Suspense
+      fallback={
+        <div className="col text-center p-5 h1">
+          <span style={{ fontSize: "75px", color: "#ff0000" }}>__</span>React
+          Redux EC
+          <LoadingOutlined style={{ fontSize: "75px", color: "#ff0000" }} />
+          MMERCE<span style={{ fontSize: "75px", color: "#ff0000" }}>__</span>
+        </div>
+      }
+    >
       <Header />
       <ToastContainer />
       <SideDrawer />
@@ -192,7 +239,7 @@ const App = () => {
           }
         />
       </Routes>
-    </>
+    </Suspense>
   );
 };
 
