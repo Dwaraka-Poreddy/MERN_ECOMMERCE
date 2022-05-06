@@ -9,7 +9,7 @@ require("dotenv").config();
 // app
 const app = express();
 mongoose
-  .connect(process.env.DATABASE || "mongodb://127.0.0.1:27017/ecom", {})
+  .connect(process.env.DATABASE, {})
   .then(() => console.log("DB connected"))
   .catch((err) => console.log("DB Error => ", err));
 
